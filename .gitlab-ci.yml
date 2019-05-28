@@ -2,6 +2,11 @@
 before_script:
   - pod install
 
+variables:
+  LC_ALL: "en_US.UTF-8"
+  LANG: "en_US.UTF-8"
+  GIT_STRATEGY: clone
+
 stages:
     - lint
     - build
