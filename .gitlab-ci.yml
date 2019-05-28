@@ -3,6 +3,7 @@ before_script:
   - gem install bundler --force
   - bundle update --bundler
   - gem install cocoapods
+  - gem install jazzy
   - bundle install
   - pod install
 
