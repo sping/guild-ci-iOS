@@ -1,0 +1,46 @@
+
+before_script:
+  - pod install
+
+stages:
+    - lint
+    - build
+    - documentation
+    - deploy
+
+lint_project:
+  stage: lint
+  script:
+    - swiftlint autocorrect
+    - swiftlint lint
+
+build_project:
+  stage: build
+  script: 
+    - xcodebuild clean -project GitViewer.xcworkspace -scheme GitViewer | xcpretty
+
+docGen:
+  stage: documentation
+  script:
+    - jazzy
+
+deployStaging:
+  stage: deploy
+  only:
+     - /^Fabric/Staging/.*$/
+  script:
+   - fastlane deploy_staging
+
+deployProduction:
+  stage: deploy
+  only: 
+    - /^Fabric/Production/.*$/
+  script:
+    - fastlane deploy_production
+
+deployRelease: 
+  stage: deploy
+  only:
+    -  /^GooglePlayStore/.*$/
+  script:
+    fastlane deploy_app_store
