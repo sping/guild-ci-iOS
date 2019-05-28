@@ -1,10 +1,8 @@
-
 before_script:
   - gem update --system
   - gem install bundler --force
   - bundle update --bundler
   - gem install cocoapods
-  # - brew install swiftlint
   - bundle install
   - pod install
 
@@ -14,12 +12,13 @@ variables:
   GIT_STRATEGY: clone
 
 stages:
-    - lint
-    - documentation
-    - deploy
+  - lint
+  - documentation
+  - deploy
 
-lint_project:
-  tags: ios
+lintProject:
+  tags:
+    - ios
   stage: lint
   script: 
     - bundle exec fastlane lint
