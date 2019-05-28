@@ -5,7 +5,7 @@ before_script:
   # - gem install cocoapods
   # - gem install jazzy
   # - bundle install
-  - pod install
+  # - pod install
 
 variables:
   LANG: "en_US.UTF-8"
