@@ -28,11 +28,18 @@ platform :ios do
     clear_derived_data
     cocoapods(
       clean: true,
-      podfile: "./Podfile"
+      podfile: "Podfile",
+      try_repo_update_on_error: true
     )
   end
 
-    
+  lane :lint do
+    swiftlint(
+      reporter: "html",
+      output_file: "fastlane/swiftlint.html"
+    )
+  end
+
   lane :deploy_staging do
     # Execute environment switching / scheme switching here
     beta

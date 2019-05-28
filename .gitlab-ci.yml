@@ -9,26 +9,24 @@ before_script:
   - pod install
 
 variables:
-  LC_ALL: "en_US.UTF-8"
   LANG: "en_US.UTF-8"
+  LC_ALL: "en_US.UTF-8"
   GIT_STRATEGY: clone
 
 stages:
-    # - lint
-    - build
+    - lint
     - documentation
     - deploy
 
-# lint_project:
-#   stage: lint
-#   script:
-#     - swiftlint autocorrect
-#     - swiftlint lint
-
-build_project:
-  stage: build
+lint_project:
+  tags: ios
+  stage: lint
   script: 
-    - xcodebuild clean -project GitViewer.xcworkspace -scheme GitViewer | xcpretty
+    - bundle exec fastlane lint
+  artifacts:
+    paths:
+      - fastlane/swiftlint.html
+  allow_failure: false
 
 docGen:
   stage: documentation
@@ -40,18 +38,18 @@ deployStaging:
   only:
      - /^Fabric/Staging/.*$/
   script:
-   - fastlane deploy_staging
+   - bundle exec fastlane deploy_staging
 
 deployProduction:
   stage: deploy
   only: 
     - /^Fabric/Production/.*$/
   script:
-    - fastlane deploy_production
+    - bundle exec fastlane deploy_production
 
 deployRelease: 
   stage: deploy
   only:
     -  /^GooglePlayStore/.*$/
   script:
-    fastlane deploy_app_store
+    - bundle exec fastlane deploy_app_store
