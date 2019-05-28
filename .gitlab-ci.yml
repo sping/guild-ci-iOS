@@ -1,8 +1,11 @@
 
 before_script:
-  - bundle install
-  - brew install cocoapods
+  - gem update --system
+  - gem install bundler --force
+  - bundle update --bundler
+  - gem install cocoapods
   - brew install swiftlint
+  - bundle install
   - pod install
 
 variables:
