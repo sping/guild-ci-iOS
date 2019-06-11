@@ -4,8 +4,8 @@ before_script:
   # - bundle update --bundler
   # - gem install cocoapods
   # - gem install jazzy
-  # - bundle install
-  # - pod install
+  - bundle install
+  - pod install
 
 variables:
   LANG: "en_US.UTF-8"
@@ -19,7 +19,7 @@ stages:
 
 lintProject:
   tags:
-    - ios
+    - iOS
   stage: lint
   script: 
     - bundle exec fastlane lint
