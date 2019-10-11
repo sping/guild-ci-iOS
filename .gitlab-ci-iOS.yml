@@ -1,0 +1,55 @@
+before_script:
+  # - gem update --system
+  # - gem install bundler --force
+  # - bundle update --bundler
+  # - gem install cocoapods
+  # - gem install jazzy
+  - bundle install
+  - pod install
+
+variables:
+  LANG: "en_US.UTF-8"
+  LC_ALL: "en_US.UTF-8"
+  GIT_STRATEGY: clone
+
+stages:
+  - lint
+  - documentation
+  - deploy
+
+lintProject:
+  tags:
+    - iOS
+  stage: lint
+  script: 
+    - bundle exec fastlane lint
+  artifacts:
+    paths:
+      - fastlane/swiftlint.html
+  allow_failure: false
+
+docGen:
+  stage: documentation
+  script:
+    - jazzy
+
+deployStaging:
+  stage: deploy
+  only:
+     - /^Fabric/Staging/.*$/
+  script:
+   - bundle exec fastlane deploy_staging
+
+deployProduction:
+  stage: deploy
+  only: 
+    - /^Fabric/Production/.*$/
+  script:
+    - bundle exec fastlane deploy_production
+
+deployRelease: 
+  stage: deploy
+  only:
+    -  /^GooglePlayStore/.*$/
+  script:
+    - bundle exec fastlane deploy_app_store
